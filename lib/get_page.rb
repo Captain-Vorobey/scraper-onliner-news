@@ -5,9 +5,8 @@ require 'curb'
 
 require_relative '../data/data.rb'
 
-
-module NokogiriReader 
-	def NokogiriReader.get_page
-		doc = Nokogiri::HTML(open(URL))
-	end
+module NokogiriReader
+  def self.get_page
+    doc = Nokogiri::HTML(open(URL))
   end
+end
