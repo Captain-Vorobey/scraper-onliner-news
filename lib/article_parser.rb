@@ -13,22 +13,14 @@ class ArticleParser
   end
 
   def self.get_name(_name, doc)
-    #article_name = doc.xpath(NAME).text.strip
-
-    Capybara.add_selector(:row) do
-      xpath { |num| XPath.descendant['//*[@class = "b-tile-section"]'] }
-    end
-    doc.xpath
+    article_name = doc.xpath(NAME).text.strip
   end
 
   def self.get_img(_img, doc)
-    #article_img = doc.xpath(IMAGE)
+    article_img = doc.xpath(IMAGE)
   end
 
   def self.get_label(_label, doc)
-    #article_label = doc.xpath(LABEL).map { |el| el.text.slice(0, 200) }
-    Capybara.add_selector(:row) do
-      p xpath { LABEL }
-    end
+    article_label = doc.xpath(LABEL).map { |el| el.text.slice(0, 200) }
   end
 end
