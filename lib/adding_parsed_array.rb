@@ -10,16 +10,16 @@ class AddingParsedArray
 
   def initialize(articles, _doc)
     @articles = articles
-    @doc = NokogiriReader.get_page
+    @doc = URL
   end
 
   def push_to_articles
     article = ArticleParser.new(NAME, LABEL, IMAGE, doc)
 
     article_name = ArticleParser.get_name(NAME, doc)
-    article_label = ArticleParser.get_label(LABEL, doc)
-    article_image = ArticleParser.get_img(IMAGE, doc)
+    article_label = ArticleParser.get_label(doc, LABEL)
+    #article_image = ArticleParser.get_img(IMAGE, doc)
 
-    articles.push(ArticleParser.new(article_name, article_label, article_image, doc))
+    #articles.push(ArticleParser.new(article_name, article_label, article_image, doc))
   end
 end
