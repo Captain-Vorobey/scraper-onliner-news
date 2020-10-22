@@ -15,7 +15,7 @@ class ArticleParser
     @browser.visit(url)
   end
 
-  def get_name(_name, _url)
+  def get_name(_name)
     data = @browser.all(:xpath, _name)
     names = []
     data.each do |el|
@@ -24,16 +24,16 @@ class ArticleParser
     names
   end
 
-  def get_img(_img, _url)
-    p res = @browser.all(:xpath, _img)
-    res1 = []
-    res.each do |el|
-      res1.push(el['style'])
+  def get_img(_img)
+    data = @browser.all(:xpath, _img)
+    images = []
+    data.each do |el|
+      images.push(el['style'])
     end
-    res1
+    images
   end
 
-  def get_label(_label, _url)
+  def get_label(_label)
     links = []
 
     @browser.all(:xpath, '//*[contains(@class,"b-tile m-1x1")]/a[@class="b-tile-main"]').each do |row|
@@ -44,7 +44,7 @@ class ArticleParser
     links.each do |link|
       @browser.visit link
       if @browser.has_css?(_label)
-        p text = @browser.find(_label).text.slice(0, 200)
+        text = @browser.find(_label).text.slice(0, 200)
         data.push(text)
       end
     end

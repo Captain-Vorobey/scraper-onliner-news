@@ -15,9 +15,9 @@ class AddingParsedArray
   def push_to_articles
     article = ArticleParser.new(NAME, LABEL, IMAGE, doc)
 
-    article_image = article.get_img(IMAGE, doc)
-    article_name = article.get_name(NAME, doc)
-    article_label = article.get_label(LABEL, doc)
+    article_image = article.get_img(IMAGE)
+    article_name = article.get_name(NAME)
+    article_label = article.get_label(LABEL)
 
     articles.push(ArticleParser.new(article_name, article_label, article_image, doc))
   end
