@@ -1,57 +1,65 @@
 require 'capybara'
 require 'selenium-webdriver'
 
-require_relative 'get_page'
-
 class ArticleParser
-  include NokogiriReader
-
   attr_accessor :name, :label, :image_url, :url, :browser
 
   def initialize(article_name, label, image_url, url)
-    # Capybara.app_host = URL
     @name = article_name
     @label = label
     @image_url = image_url
-    NokogiriReader.initial_setup
+
+    initial_setup
     @browser = Capybara.current_session
     @url = url
     @browser.visit(url)
   end
 
-  def self.get_name(_name, url)
-    NokogiriReader.initial_setup
-    @browser = Capybara.current_session
-    @url = url
-    @browser.visit(url)
-    res = @browser.all(:xpath, _name)
+  def get_name(_name, _url)
+    data = @browser.all(:xpath, _name)
+    names = []
+    data.each do |el|
+      names.push(el.text)
+    end
+    names
+  end
+
+  def get_img(_img, _url)
+    p res = @browser.all(:xpath, _img)
     res1 = []
     res.each do |el|
-      res1.push(el.text)
+      res1.push(el['style'])
     end
     res1
   end
 
-  def self.get_img(_img, url)
-    #article_img = doc.xpath(_img)
-    NokogiriReader.initial_setup
-    @browser = Capybara.current_session
-    @url = url
-    @browser.visit(url)
-    res = @browser.all(:xpath, _img)
-    res1 = []
-    res.each do |el|
-      res1.push(el['style'].strip) # .map { |a| a['style'].match(/^.*:\s*url\((\".*\")\)/).captures[0] })
+  def get_label(_label, _url)
+    links = []
+
+    @browser.all(:xpath, '//*[contains(@class,"b-tile m-1x1")]/a[@class="b-tile-main"]').each do |row|
+      links.push(row['href'])
     end
-    res1
+    data = []
+
+    links.each do |link|
+      @browser.visit link
+      if @browser.has_css?(_label)
+        p text = @browser.find(_label).text.slice(0, 200)
+        data.push(text)
+      end
+    end
+    data
   end
-  # news-entry__speech
-  def self.get_label(_label, url)
-    NokogiriReader.initial_setup
-    @browser = Capybara.current_session
-    @url = url
-    @browser.visit(url)
-    #@browser.find_by_id('//*[class="b-tile-main"]').click
-    @browser.all(:css, _label)
+
+  def initial_setup
+    Capybara.register_driver :selenium do |app|
+      Capybara::Selenium::Driver.new(app, browser: :chrome)
+    end
+
+    Capybara.javascript_driver = :chrome
+    Capybara.configure do |config|
+      config.default_max_wait_time = 10
+      config.default_driver = :selenium
+    end
   end
 end

@@ -9,7 +9,7 @@ puts 'Wait a bit please...'
 array = AddingParsedArray.new([], URL).push_to_articles
 
 def array.arr_to_file(arr)
-  ParsePage.new.parse_page(FILE_NAME, arr)
+  ToCSV.new.parse_page(FILE_NAME, arr)
 end
 
 array.arr_to_file(array)

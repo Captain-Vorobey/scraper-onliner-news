@@ -2,7 +2,7 @@ require 'csv'
 
 require_relative '../data/data.rb'
 
-class ParsePage
+class ToCSV
   def parse_page(file_name, array)
     CSV.open(file_name + '.csv', 'w') do |csv|
       csv << %w[Name Label Image]
