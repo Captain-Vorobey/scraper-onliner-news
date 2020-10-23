@@ -15,8 +15,10 @@ class ArticleParser
     @browser.visit(url)
   end
 
+  attr_reader :browser
+
   def get_name(_name)
-    data = @browser.all(:xpath, _name)
+    data = browser.all(:xpath, _name)
     names = []
     data.each do |el|
       names.push(el.text)
@@ -25,7 +27,7 @@ class ArticleParser
   end
 
   def get_img(_img)
-    data = @browser.all(:xpath, _img)
+    data = browser.all(:xpath, _img)
     images = []
     data.each do |el|
       images.push(el['style'])
@@ -42,8 +44,8 @@ class ArticleParser
     data = []
 
     links.each do |link|
-      @browser.visit link
-      if @browser.has_css?(_label)
+      browser.visit link
+      if browser.has_css?(_label)
         text = @browser.find(_label).text.slice(0, 200)
         data.push(text)
       end
@@ -55,11 +57,6 @@ class ArticleParser
     Capybara.register_driver :selenium do |app|
       Capybara::Selenium::Driver.new(app, browser: :chrome)
     end
-
-    Capybara.javascript_driver = :chrome
-    Capybara.configure do |config|
-      config.default_max_wait_time = 10
-      config.default_driver = :selenium
-    end
+    Capybara.default_driver = :selenium
   end
 end

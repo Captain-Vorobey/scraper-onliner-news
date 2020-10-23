@@ -7,8 +7,8 @@ require_relative 'to_csv'
 class AddingParsedArray
   attr_accessor :articles, :doc
 
-  def initialize(articles, _doc)
-    @articles = articles
+  def initialize(_doc)
+    @articles = []
     @doc = URL
   end
 
