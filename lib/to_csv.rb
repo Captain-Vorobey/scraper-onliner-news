@@ -2,12 +2,12 @@ require 'csv'
 
 require_relative '../data/data.rb'
 
-class ToCSV
-  def parse_page(file_name, array)
+module CsvWritable
+  def self.write(file_name, array)
     CSV.open(file_name + '.csv', 'w') do |csv|
       csv << %w[Name Label Image]
       array.each do |item|
-        csv << [item.name, item.label, item.image_url]
+        csv << [item[:name], item[:label], item[:image_ur]]
       end
     end
   end

@@ -2,25 +2,19 @@ require 'capybara'
 require 'selenium-webdriver'
 
 class ArticleParser
-  attr_accessor :name, :label, :image_url, :url, :browser
+  attr_reader :url, :browser
 
-  def initialize(article_name, label, image_url, url)
-    @name = article_name
-    @label = label
-    @image_url = image_url
-
+  def initialize(url)
     initial_setup
     @browser = Capybara.current_session
     @url = url
     @browser.visit(url)
   end
 
-  attr_reader :browser
-
   def get_name(_name)
     data = browser.all(:xpath, _name)
     names = []
-    data.each do |el|
+    data.map do |el|
       names.push(el.text)
     end
     names
@@ -29,7 +23,7 @@ class ArticleParser
   def get_img(_img)
     data = browser.all(:xpath, _img)
     images = []
-    data.each do |el|
+    data.map do |el|
       images.push(el['style'])
     end
     images

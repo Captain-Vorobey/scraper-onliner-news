@@ -6,10 +6,10 @@ require_relative 'data/data.rb'
 
 puts 'Wait a bit please...'
 
-array = AddingParsedArray.new(URL).push_to_articles
+array = ArrayScraper.new(URL).push_to_articles
 
 def array.arr_to_file(arr)
-  ToCSV.new.parse_page(FILE_NAME, arr)
+  CsvWritable.write(FILE_NAME, arr)
 end
 
 array.arr_to_file(array)
